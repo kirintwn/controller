@@ -1,5 +1,6 @@
 module.exports = {
-  parser: 'babel-eslint',
+  // parser: 'babel-eslint',
+  parser: '@typescript-eslint/parser',
   env: {
     browser: true,
     node: true,
@@ -40,6 +41,7 @@ module.exports = {
     'no-continue': 'off',
     'no-bitwise': 'off',
     'no-underscore-dangle': 'off',
+    'no-param-reassign': ['error', { props: false }],
     'no-restricted-syntax': [
       'error',
       'ForInStatement',
@@ -55,6 +57,11 @@ module.exports = {
         arrowParens: 'always',
       },
     ],
+    'lines-between-class-members': [
+      'error',
+      'always',
+      { exceptAfterSingleLine: true },
+    ],
     'react/jsx-filename-extension': [
       'warn',
       {
@@ -62,6 +69,8 @@ module.exports = {
       },
     ],
     '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/explicit-member-accessibility': 'off',
+    '@typescript-eslint/no-var-requires': 'off',
   },
   overrides: [
     {

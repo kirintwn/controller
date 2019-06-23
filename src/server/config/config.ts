@@ -1,9 +1,11 @@
 import path from 'path';
 import nconf from 'nconf';
-import evilDns from 'evil-dns';
+import * as evilDns from 'evil-dns';
 import { logger } from '../logger';
 
 class Config {
+  env: string;
+
   constructor() {
     nconf.argv({ parseValues: true });
     nconf.env({ parseValues: true, whitelist: ['NODE_ENV', 'STAGING'] });
@@ -25,7 +27,7 @@ class Config {
     this.setCustomDNS();
   }
 
-  get(key) {
+  get(key: string) {
     return nconf.get(key);
   }
 
@@ -39,4 +41,4 @@ class Config {
   }
 }
 
-module.exports = new Config();
+export default new Config();

@@ -13,6 +13,8 @@ module.exports = merge(base, {
     inline: true,
     headers: { 'Access-Control-Allow-Origin': '*' },
     compress: true,
+    host: '0.0.0.0',
+    disableHostCheck: true,
     port: 9000,
     proxy: [
       {
@@ -20,6 +22,13 @@ module.exports = merge(base, {
         target: 'http://localhost:3000',
         changeOrigin: true,
         secure: false,
+      },
+      {
+        context: ['/wsendpoint'],
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        secure: false,
+        ws: true,
       },
     ],
     stats: 'errors-warnings',

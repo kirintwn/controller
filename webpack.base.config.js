@@ -5,7 +5,7 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    main: path.resolve(__dirname, './src/client/index.tsx'),
+    main: path.resolve(__dirname, './src/client'),
   },
   output: {
     filename: '[name].js',
@@ -13,6 +13,7 @@ module.exports = {
     publicPath: '/',
   },
   resolve: {
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
     alias: {
       assets: path.resolve(__dirname, './assets'),
     },

@@ -4,3 +4,12 @@
 /*   font-family: "Fonts"; */
 /*   src: url("../assets/fonts.ttf"); */
 /* } */
+
+* {
+  padding: 0;
+  margin: 0;
+  border: 1px black solid;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}

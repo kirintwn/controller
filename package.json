@@ -3,15 +3,29 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "lint": "eslint src --ext \".js,.jsx,.ts,.tsx\" --fix && tsc",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint . --ext \".js,.jsx,.ts,.tsx\" --fix && tsc",
+    "test": "npm run lint && NODE_ENV=test jest",
+    "test-update": "npm run lint && NODE_ENV=test jest -u",
     "gulp": "gulp",
-    "dev:client": "webpack-dev-server --hot --inline --config webpack.dev.config.js --host 0.0.0.0 --disableHostCheck true",
-    "build:server": "babel src/utils --out-dir build/utils --extensions \".js,.jsx,.ts,.tsx\" --copy-files && babel src/server --out-dir build/server --extensions \".js,.jsx,.ts,.tsx\" --copy-files",
+    "build-server:utils": "babel src/utils -d build/utils -x \".js,.jsx,.ts,.tsx\" --copy-files",
+    "build-server:server": "babel src/server -d build/server -x \".js,.jsx,.ts,.tsx\" --copy-files",
+    "build:server": "run-p build-server:*",
     "build:client": "webpack --config webpack.prod.config.js",
-    "build": "rm -rf build && npm run build:server && npm run build:client",
-    "dev": "concurrently \"npm:start\" \"npm:dev:client\"",
-    "start": "npm run build:server && node build/server/server.js"
+    "build": "rm -rf build && run-p build:*",
+    "dev:client": "webpack-dev-server --config webpack.dev.config.js",
+    "dev": "run-p start dev:client",
+    "start": "npm run build:server && node build/server/index.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && tsc"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "git add"
+    ]
   },
   "author": "",
   "license": "MIT",
@@ -24,16 +38,19 @@
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
-    "@types/koa": "^2.0.48",
+    "@types/core-js": "^2.5.1",
+    "@types/lodash": "^4.14.134",
+    "@types/mongoose": "^5.5.6",
+    "@types/nconf": "^0.10.0",
     "@types/node": "^12.0.7",
     "@types/react": "^16.8.19",
     "@types/react-dom": "^16.8.4",
+    "@types/rx": "^4.1.1",
     "@typescript-eslint/eslint-plugin": "^1.10.2",
     "@typescript-eslint/parser": "^1.10.2",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.6",
     "chalk": "^2.4.2",
-    "concurrently": "^4.1.0",
     "copy-webpack-plugin": "^5.0.3",
     "core-js": "^3.1.3",
     "css-loader": "^2.1.1",
@@ -52,12 +69,19 @@
     "gulp": "^4.0.2",
     "gulp-imagemin": "^6.0.0",
     "html-webpack-plugin": "^3.2.0",
+    "husky": "^2.4.1",
+    "jest": "^24.8.0",
+    "lint-staged": "^8.2.1",
+    "nipplejs": "^0.8.2",
+    "npm-run-all": "^4.1.5",
     "prettier": "^1.17.1",
     "pretty-bytes": "^5.2.0",
     "react": "^16.8.6",
+    "react-bootstrap": "^1.0.0-beta.9",
     "react-dom": "^16.8.6",
     "regenerator-runtime": "^0.13.2",
     "style-loader": "^0.23.1",
+    "supertest": "^4.0.2",
     "through2": "^3.0.1",
     "typescript": "^3.5.1",
     "webpack": "^4.33.0",
@@ -67,15 +91,11 @@
   },
   "dependencies": {
     "evil-dns": "^0.2.0",
-    "koa": "^2.7.0",
-    "koa-body": "^4.1.0",
-    "koa-logger": "^3.2.0",
-    "koa-router": "^7.4.0",
-    "koa-send": "^5.0.0",
-    "koa-static": "^5.0.0",
+    "lodash": "^4.17.11",
     "mongoose": "^5.5.14",
     "nconf": "^0.10.0",
     "source-map-support": "^0.5.12",
+    "uWebSockets.js": "github:uNetworking/uWebSockets.js#binaries",
     "winston": "^3.2.1"
   }
 }
